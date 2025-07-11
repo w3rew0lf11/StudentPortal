@@ -11,6 +11,7 @@ A simple PHP-based web application featuring user registration, login, profile m
 - Upload and update profile pictures
 - Secure file handling and storage
 - Responsive and user-friendly interface
+- password hashing with bcrypt hashing algorithm
 
 ---
 
