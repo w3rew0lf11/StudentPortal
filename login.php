@@ -5,7 +5,7 @@
         <div class="container">
             <div class="auth-container animate-slide-up">
                 <div class="auth-image">
-                    <img src="assets/images/login-illustration.png" alt="Student portal illustration">
+                    <img src="assets/images/login.jpg" alt="Student portal illustration">
                 </div>
                 <div class="auth-forms">
                     <div class="auth-form active" id="loginForm">

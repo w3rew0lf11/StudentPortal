@@ -138,7 +138,7 @@ if (!empty($user['profile_img'])) {
                             <i class="fas fa-book-open"></i>
                         </div>
                         <div class="stat-info">
-                            <h3>5</h3>
+                            <h3>4</h3>
                             <p>Active Courses</p>
                         </div>
                     </div>

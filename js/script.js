@@ -5,19 +5,14 @@ function initThemeToggle() {
 
   const html = document.documentElement;
 
-  // Check for saved theme or system preference
   const savedTheme = localStorage.getItem("theme");
   const systemPrefersDark = window.matchMedia(
     "(prefers-color-scheme: dark)"
   ).matches;
-
-  // Determine initial theme
   let currentTheme = savedTheme || (systemPrefersDark ? "dark" : "light");
 
-  // Apply theme
   html.setAttribute("data-theme", currentTheme);
 
-  // Toggle theme when button is clicked
   themeToggle.addEventListener("click", () => {
     const newTheme =
       html.getAttribute("data-theme") === "dark" ? "light" : "dark";
@@ -25,7 +20,6 @@ function initThemeToggle() {
     localStorage.setItem("theme", newTheme);
   });
 
-  // Watch for system theme changes
   window
     .matchMedia("(prefers-color-scheme: dark)")
     .addEventListener("change", (e) => {
@@ -35,29 +29,24 @@ function initThemeToggle() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", initThemeToggle);
+document.addEventListener("DOMContentLoaded", () => {
+  initThemeToggle();
 
-// Toggle password visibility
-document.querySelectorAll(".toggle-password").forEach((button) => {
-  button.addEventListener("click", function () {
-    const input = this.parentElement.querySelector("input");
-    const icon = this.querySelector("i");
-    const type =
-      input.getAttribute("type") === "password" ? "text" : "password";
-    input.setAttribute("type", type);
+  // Password visibility toggle
+  document.querySelectorAll(".toggle-password").forEach((button) => {
+    button.addEventListener("click", function () {
+      const input = this.parentElement.querySelector("input");
+      const icon = this.querySelector("i");
+      const type =
+        input.getAttribute("type") === "password" ? "text" : "password";
+      input.setAttribute("type", type);
 
-    if (type === "password") {
-      icon.classList.remove("fa-eye-slash");
-      icon.classList.add("fa-eye");
-    } else {
-      icon.classList.remove("fa-eye");
-      icon.classList.add("fa-eye-slash");
-    }
+      icon.classList.toggle("fa-eye");
+      icon.classList.toggle("fa-eye-slash");
+    });
   });
-});
 
-// Form toggling functionality
-document.addEventListener("DOMContentLoaded", function () {
+  // Form toggling
   document.querySelectorAll(".switch-form").forEach((link) => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -70,6 +59,69 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById(targetForm).classList.add("active");
     });
   });
+
+  // Close alert on '×' click
+  document.querySelectorAll(".alert-close").forEach((btn) => {
+    btn.addEventListener("click", function () {
+      const alert = this.closest(".alert");
+      if (alert) {
+        alert.style.opacity = "0";
+        setTimeout(() => alert.remove(), 300);
+      }
+    });
+  });
+
+  // ✅ Testimonial Slider Logic
+  const slides = document.querySelectorAll(".testimonial-slide");
+  const prevBtn = document.querySelector(".slider-prev");
+  const nextBtn = document.querySelector(".slider-next");
+  const dotsContainer = document.querySelector(".slider-dots");
+  let currentIndex = 0;
+
+  function showSlide(index) {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+    });
+
+    if (dotsContainer) {
+      Array.from(dotsContainer.children).forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    }
+  }
+
+  function createDots() {
+    if (!dotsContainer) return;
+    slides.forEach((_, index) => {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      if (index === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => {
+        currentIndex = index;
+        showSlide(currentIndex);
+      });
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  if (slides.length > 0) {
+    createDots();
+    showSlide(currentIndex);
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+        showSlide(currentIndex);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % slides.length;
+        showSlide(currentIndex);
+      });
+    }
+  }
 });
 
 // Auto-remove alerts after 5 seconds
@@ -88,17 +140,4 @@ window.addEventListener("load", () => {
   ) {
     history.replaceState({}, "", window.location.pathname);
   }
-});
-
-// Close alert on '×' click
-document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".alert-close").forEach((btn) => {
-    btn.addEventListener("click", function () {
-      const alert = this.closest(".alert");
-      if (alert) {
-        alert.style.opacity = "0";
-        setTimeout(() => alert.remove(), 300); // Wait for fade-out transition
-      }
-    });
-  });
 });

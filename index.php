@@ -11,7 +11,7 @@
                     <a href="#features" class="btn btn-outline">Learn More</a>
                 </div>
             </div>
-            <div class="hero-image animate-pop-in">
+            <div class="hero-image" >
                 <img src="assets/images/student-hero.png" alt="Student studying">
             </div>
         </div>
